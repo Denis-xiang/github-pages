@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valentine's Day</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            background: linear-gradient(45deg, #ff9a9e, #fad0c4);
+            overflow: hidden;
+            font-family: 'Microsoft YaHei', cursive;
+        }
+
+        .container {
+            position: relative;
+            height: 100%;
+        }
+
+        .heart {
+            position: absolute;
+            animation: fall 8s linear infinite;
+            color: #ff3366;
+        }
+
+        @keyframes fall {
+            from { transform: translateY(-20vh) rotate(0deg); }
+            to { transform: translateY(120vh) rotate(360deg); }
+        }
+
+        .message {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: #fff;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            animation: glow 2s ease-in-out infinite;
+        }
+
+        @keyframes glow {
+            0%, 100% { opacity: 0.8; }
+            50% { opacity: 1; }
+        }
+
+        .input-box {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            background: rgba(255,255,255,0.9);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.2);
+        }
+
+        .input-box input {
+            padding: 10px;
+            font-size: 1em;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+
+        .input-box button {
+            padding: 10px 20px;
+            font-size: 1em;
+            background: #ff3366;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="inputBox" class="input-box">
+            <h2>请输入你的名字</h2>
+            <input type="text" id="nameInput" placeholder="你的名字">
+            <button onclick="showMessage()">确认</button>
+        </div>
+        <div id="messageBox" class="message hidden">
+            <h1>❤️ 情人节快乐 ❤️</h1>
+            <p id="personalizedMessage" style="font-size: 1.2em;"></p>
+        </div>
+    </div>
+
+    <script>
+        // 生成飘落的心形
+        function createHearts() {
+            const heart = document.createElement('div');
+            heart.innerHTML = '❤';
+            heart.classList.add('heart');
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = Math.random() * 3 + 5 + 's';
+            document.body.appendChild(heart);
+
+            setTimeout(() => heart.remove(), 8000);
+        }
+
+        // 显示个性化消息
+        function showMessage() {
+            const name = document.getElementById('nameInput').value.trim();
+            if (name === '') {
+                alert('请输入你的名字~');
+                return;
+            }
+
+            const messageBox = document.getElementById('messageBox');
+            const inputBox = document.getElementById('inputBox');
+            const personalizedMessage = document.getElementById('personalizedMessage');
+
+            inputBox.classList.add('hidden');
+            messageBox.classList.remove('hidden');
+
+            personalizedMessage.innerHTML = `
+                今天是情人节，<br>
+                虽然我们认识不久，<br>
+                但很感谢遇见你，${name}。<br>
+                期待能更多地了解你。<br>
+                祝你今天有个美好的心情~❤️
+            `;
+
+            // 开始生成心形
+            setInterval(createHearts, 300);
+        }
+
+        // 点击交互效果
+        document.addEventListener('click', (e) => {
+            const miniHeart = document.createElement('div');
+            miniHeart.innerHTML = '💖';
+            miniHeart.style.position = 'absolute';
+            miniHeart.style.left = e.clientX + 'px';
+            miniHeart.style.top = e.clientY + 'px';
+            miniHeart.style.fontSize = '25px';
+            miniHeart.style.animation = 'zoom 1s';
+            document.body.appendChild(miniHeart);
+            setTimeout(() => miniHeart.remove(), 1000);
+        });
+    </script>
+</body>
+</html>
